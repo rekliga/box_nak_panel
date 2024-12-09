@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "panel-box-nak"
+version = "0.1.0"
+description = "Panel para poder controlar los productos de la tienda y promociones"
+authors = ["Ilker Francisco Zoni Gallegos"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.1.4"
+authlib = "^1.3.2"
+requests = "^2.32.3"
+python-decouple = "^3.8"
+pillow = "^11.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
