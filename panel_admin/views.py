@@ -11,6 +11,8 @@ from .forms import ProductoForm
 
 oauth = OAuth()
 
+url = settings.URL_BACKEND
+
 oauth.register(
     "auth0",
     client_id=settings.AUTH0_CLIENT_ID,
@@ -31,8 +33,24 @@ def login(request):
 def callback(request):
     token = oauth.auth0.authorize_access_token(request)
     request.session["user"] = token
-    return redirect(request.build_absolute_uri(reverse("index")))
+    
+    if token:
+        # Guarda la información del usuario en la sesión
+        request.session["user"] = {
+            "name": token["userinfo"].get("name"),
+            "picture": token["userinfo"].get("picture"),
+            "id_token": token["id_token"],
+        }
+    
+    return redirect(reverse("home"))
 
+def home(request):
+    user = request.session.get("user")
+    
+    if not user:
+        return redirect(reverse("login"))  # Redirige si no hay usuario autenticado
+    
+    return render(request, "home.html", {"user": user})
 
 def logout(request):
     request.session.clear()
@@ -74,7 +92,7 @@ def crear_producto(request):
 
             # Encabezados para autorización
             headers = {"Authorization": f"Bearer {request.session['user']['id_token']}"}
-
+            
             # Archivo para enviar en multipart/form-data
             files = {
                 "archivo": (
@@ -87,7 +105,7 @@ def crear_producto(request):
             try:
                 # Realizar la solicitud PUT al endpoint
                 response = requests.put(
-                    url="https://m0gp16mk-8000.usw3.devtunnels.ms/posts/media/upload",
+                    url=f"{url}/posts/media/upload",
                     headers=headers,
                     files=files,  # Envía el archivo como multipart/form-data
                 )
@@ -100,11 +118,16 @@ def crear_producto(request):
                     "category": categoria,
                     "image_url": response["data"]["url"],
                 }
-                
-                cargar_producto = requests.post(json=data, headers=headers,url="https://m0gp16mk-8000.usw3.devtunnels.ms/products/create")
 
+                cargar_producto = requests.post(
+                    json=data,
+                    headers=headers,
+                    url=f"{url}/products/create",
+                )
+                
                 # Verifica errores HTTP
-            except requests.exceptions.RequestException as e:
+            except Exception as e:
+                
                 print(f"Error al subir el archivo: {e}")
                 return render(
                     request,
@@ -124,10 +147,14 @@ def crear_producto(request):
 
 
 def productos_gracias(request):
-    return render(request, 'productos_gracias.html')
+    return render(request, "productos_gracias.html")
+
 
 def lista_productos(request):
+    
     headers = {"Authorization": f"Bearer {request.session['user']['id_token']}"}
-    response = requests.get("https://m0gp16mk-8000.usw3.devtunnels.ms/products/get/all",headers=headers)
+    response = requests.get(
+        f"{url}/products/get/all", headers=headers
+    )
     response = response.json()["data"]["result"]
-    return render(request, 'lista_productos.html', {'productos': response})  
+    return render(request, "lista_productos.html", {"productos": response})

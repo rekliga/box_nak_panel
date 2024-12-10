@@ -28,4 +28,5 @@ urlpatterns = [
     path("producto/crear", views.crear_producto, name="crear_producto"),
     path("productos/gracias/", views.productos_gracias, name="productos_gracias"),
     path("productos/", views.lista_productos, name="lista_productos"),
+    path("home/", views.home, name="home"),
 ]

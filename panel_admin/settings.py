@@ -19,6 +19,7 @@ from decouple import config
 AUTH0_DOMAIN = config('AUTH0_DOMAIN')
 AUTH0_CLIENT_ID = config('AUTH0_CLIENT_ID')
 AUTH0_CLIENT_SECRET = config('AUTH0_CLIENT_SECRET')
+URL_BACKEND = config('URL_BACKEND')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

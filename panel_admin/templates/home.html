@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla de Inicio</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .card {
+            background: #fff;
+            border: none;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+            color: #333;
+        }
+        .card img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .card h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .card .btn {
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .card .btn-primary {
+            background: #6a11cb;
+            border: none;
+        }
+        .card .btn-primary:hover {
+            background: #2575fc;
+        }
+        .card .btn-secondary {
+            background: #2575fc;
+            border: none;
+        }
+        .card .btn-secondary:hover {
+            background: #6a11cb;
+        }
+        .card .btn-danger {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Foto de perfil -->
+        <img src="{{ user.picture }}" alt="Foto de perfil">
+        
+        <!-- Saludo -->
+        <h1>¡Hola, {{ user.name }}!</h1>
+
+        <!-- Botones de navegación -->
+        <div class="d-grid gap-3">
+            <a href="{% url 'lista_productos' %}" class="btn btn-primary">Ir a Productos</a>
+            <a href="{% url 'crear_producto' %}" class="btn btn-secondary">Ir a Promociones</a>
+        </div>
+
+        <!-- Botón de Logout -->
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

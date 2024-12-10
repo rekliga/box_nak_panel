@@ -7,45 +7,67 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Lista de Productos</h1>
-        <a href="{% url 'crear_producto' %}" class="btn btn-primary mb-3">Crear Nuevo Producto</a>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Mi Tienda</a>
+            <div class="d-flex">
+                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Lista de Productos</h1>
+        <div class="d-flex justify-content-between mb-3">
+            <p class="text-muted">Aquí encontrarás todos los productos disponibles.</p>
+            <a href="{% url 'crear_producto' %}" class="btn btn-primary">Crear Nuevo Producto</a>
+        </div>
+
         {% if productos %}
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Categoría</th>
-                        <th>Imagen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for producto in productos %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
                         <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ producto.name }}</td>
-                            <td>{{ producto.description }}</td>
-                            <td>${{ producto.price }}</td>
-                            <td>{{ producto.stock }}</td>
-                            <td>{{ producto.category }}</td>
-                            <td>
-                                {% if producto.image_url %}
-                                    <img src="{{ producto.image_url }}" alt="{{ producto.name }}" style="width: 50px; height: 50px;">
-                                {% else %}
-                                    No disponible
-                                {% endif %}
-                            </td>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Categoría</th>
+                            <th>Imagen</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ producto.name }}</td>
+                                <td>{{ producto.description }}</td>
+                                <td>${{ producto.price }}</td>
+                                <td>{{ producto.stock }}</td>
+                                <td>{{ producto.category }}</td>
+                                <td>
+                                    {% if producto.image_url %}
+                                        <img src="{{ producto.image_url }}" alt="{{ producto.name }}" class="rounded" style="width: 50px; height: 50px;">
+                                    {% else %}
+                                        <span class="text-muted">No disponible</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
-            <p class="text-center">No hay productos disponibles.</p>
+            <div class="alert alert-warning text-center" role="alert">
+                No hay productos disponibles.
+            </div>
         {% endif %}
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
